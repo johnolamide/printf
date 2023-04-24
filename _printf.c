@@ -54,7 +54,7 @@ int _printf(const char *format, ...)
 
 	va_start(args, format);
 	int (*print_func[3])(va_list) = {print_char, print_string, print_percent};
-	char specifiers[] = {'c', 's', '%'};
+	char specifiers[3] = {'c', 's', '%'};
 
 	count = 0;
 	for (i = 0; format[i] != '\0'; i++)
