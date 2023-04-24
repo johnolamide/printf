@@ -6,7 +6,7 @@
  */
 int print_char(va_list args)
 {
-	_putchar(va_arg(args, int));
+	_putchar((char)va_arg(args, int));
 	return (1);
 }
 
@@ -18,12 +18,12 @@ int print_char(va_list args)
 int print_string(va_list args)
 {
 	char *str = va_arg(args, char *);
-	int i;
 	int count = 0;
 
-	for (i = 0; str[i] != '\0'; i++)
+	while (*str)
 	{
-		_putchar(str[i]);
+		putchar(*str);
+		str++;
 		count++;
 	}
 	return (count);
@@ -42,6 +42,34 @@ int print_percent(va_list args)
 }
 
 /**
+ * print_int - print integer
+ * @args: va_list argument
+ * Return: returns integer
+ */
+int print_int(va_list args)
+{
+	int n = va_arg(args, int);
+	int div = 1;
+	int count = 0;
+	if (n < 0)
+	{
+		_putchar('-');
+		count++;
+		n = -n;
+	}
+	while (n / div >= 10)
+		div *= 10;
+	while (div > 0)
+	{
+		_putchar((n / div) + '0');
+		count++;
+		n %= div;
+		div /= 10;
+	}
+	return (count);
+}
+
+/**
  * _printf - produces output to a format
  * @format: character string argument
  * Return: returns an int value
@@ -51,46 +79,46 @@ int _printf(const char *format, ...)
 	int count;
 	int i;
 	va_list args;
-	int (*print_func[3])(va_list);
-	char specifiers[3];
+	int (*print_func[5])(va_list);
+	char specifiers[5];
 
 	va_start(args, format);
 
 	print_func[0] = print_char;
-
 	print_func[1] = print_string;
-	
 	print_func[2] = print_percent;
+	print_func[3] = print_int;
+	print_func[4] = print_int;
 
 	specifiers[0] = 'c';
-	
 	specifiers[1] = 's';
-	
 	specifiers[2] = '%';
+	specifiers[3] = 'd';
+	specifiers[4] = 'i';
 
 	count = 0;
-	for (i = 0; format[i] != '\0'; i++)
+	while (*format)
 	{
-		if (format[i] == '%')
+		if (*format == '%')
 		{
-			int j;
-
-			i++;
-			for (j = 0; j < 3; j++)
+			format++;
+			for (i = 0; i < 5; i++)
 			{
-				if (format[i] == specifiers[j])
+				if (*format == specifiers[i])
 				{
-					count += print_func[j](args);
+					count += functions[i](args);
 					break;
 				}
 			}
 		}
 		else
 		{
-			_putchar(format[i]);
+			putchar(*format);
 			count++;
 		}
+		format++;
 	}
+
 	va_end(args);
 	return (count);
 }
