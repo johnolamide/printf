@@ -55,6 +55,7 @@ int _printf(const char *format, ...)
 	char specifiers[3];
 
 	va_start(args, format);
+
 	print_func[0] = print_char;
 
 	print_func[1] = print_string;
@@ -67,7 +68,7 @@ int _printf(const char *format, ...)
 	
 	specifiers[2] = '%';
 
-	count = 0;
+  count = 0;
 	for (i = 0; format[i] != '\0'; i++)
 	{
 		if (format[i] == '%')
