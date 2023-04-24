@@ -66,7 +66,7 @@ int _printf(const char *format, ...)
 			i++;
 			for (j = 0; j < 3; j++)
 			{
-				if (format[j] == specifiers[j])
+				if (format[i] == specifiers[j])
 				{
 					count += print_func[j](args);
 					break;
