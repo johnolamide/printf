@@ -48,27 +48,21 @@ int print_percent(va_list args)
  */
 int _printf(const char *format, ...)
 {
-	int count;
-	int i;
+	int count, i;
 	va_list args;
 	int (*print_func[3])(va_list);
 	char specifiers[3];
 
 	va_start(args, format);
-
 	print_func[0] = print_char;
-
 	print_func[1] = print_string;
-	
 	print_func[2] = print_percent;
 
 	specifiers[0] = 'c';
-	
 	specifiers[1] = 's';
-	
 	specifiers[2] = '%';
 
-  count = 0;
+	count = 0;
 	for (i = 0; format[i] != '\0'; i++)
 	{
 		if (format[i] == '%')
