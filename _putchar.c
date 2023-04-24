@@ -2,5 +2,5 @@
 
 int _putchar(char c)
 {
-	return weite(1, &c, 1);
+	return write(1, &c, 1);
 }
