@@ -18,7 +18,7 @@ int print_char(va_list args)
 int print_string(va_list args)
 {
 	char *str = va_arg(args, char *);
-	int i;
+
 	int count = 0;
 
 	if (str == NULL)
@@ -97,7 +97,7 @@ int _printf(const char *format, ...)
 	int count = 0, i;
 	va_list args;
 	int (*print_func[5])(va_list) = {print_char, print_string,
-	print_percent print_int, print_int};
+	print_percent, print_int, print_int};
 	char specifiers[5] = {'c', 's', '%', 'd', 'i'};
 
 	va_start(args, format);
