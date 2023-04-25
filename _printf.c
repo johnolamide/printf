@@ -22,7 +22,7 @@ int print_string(va_list args)
 	int count = 0;
 
 	if (str == NULL)
-		str = "(null)"
+		str = "";
 
 	for (i = 0; str[i] != '\0'; i++)
 	{
