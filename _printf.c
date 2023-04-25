@@ -50,7 +50,7 @@ int print_percent(va_list args)
  */
 int print_int(va_list args)
 {
-	int n = va_arg(args, int);
+	int num = va_arg(args, int);
 	int count = 0;
 	char buffer[11];
 	int i = 0;
@@ -87,25 +87,13 @@ int print_int(va_list args)
  */
 int _printf(const char *format, ...)
 {
-	int count, i;
+	int count = 0, i;
 	va_list args;
-	int (*print_func[5])(va_list);
-	char specifiers[5];
+	int (*print_func[5])(va_list) = {print_char, print_string,
+	print_percent print_int, print_int};
+	char specifiers[5] = {'c', 's', '%', 'd', 'i'};
 
 	va_start(args, format);
-	print_func[0] = print_char;
-	print_func[1] = print_string;
-	print_func[2] = print_percent;
-	print_func[3] = print_int;
-	print_func[4] = print_int;
-
-	specifiers[0] = 'c';
-	specifiers[1] = 's';
-	specifiers[2] = '%';
-	specifiers[3] = 'd';
-	specifiers[4] = 'i';
-
-	count = 0;
 	for (i = 0; format[i] != '\0'; i++)
 	{
 		if (format[i] == '%')
