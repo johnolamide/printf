@@ -72,6 +72,8 @@ int print_int(va_list args)
 		num /= 10;
 		i++;
 	}
+	if (i >= 11)
+		return (-1);
 	for (i--; i >= 0; i--)
 	{
 		_putchar(buffer[i]);
