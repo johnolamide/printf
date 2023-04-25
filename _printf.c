@@ -6,7 +6,7 @@
  */
 int print_char(va_list args)
 {
-	_putchar((char)va_arg(args, int));
+	_putchar(va_arg(args, int));
 	return (1);
 }
 
@@ -18,10 +18,12 @@ int print_char(va_list args)
 int print_string(va_list args)
 {
 	char *str = va_arg(args, char *);
+	int i;
 	int count = 0;
 
 	if (str == NULL)
 		str = "(nil)";
+
 	while (*str)
 	{
 		_putchar(*str);
@@ -44,6 +46,7 @@ int print_percent(va_list args)
 }
 
 /**
+
  * print_int - print integer
  * @args: va_list argument
  * Return: returns integer
@@ -83,12 +86,14 @@ int print_int(va_list args)
 }
 
 /**
+
  * _printf - produces output to a format
  * @format: character string argument
  * Return: returns an int value
  */
 int _printf(const char *format, ...)
 {
+
 	int count = 0, i;
 	va_list args;
 	int (*print_func[5])(va_list) = {print_char, print_string,
@@ -96,6 +101,7 @@ int _printf(const char *format, ...)
 	char specifiers[5] = {'c', 's', '%', 'd', 'i'};
 
 	va_start(args, format);
+
 	for (i = 0; format[i] != '\0'; i++)
 	{
 		if (format[i] == '%')
@@ -103,7 +109,9 @@ int _printf(const char *format, ...)
 			int j;
 
 			i++;
+
 			for (j = 0; j < 5; j++)
+
 			{
 				if (format[i] == specifiers[j])
 				{
