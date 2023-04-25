@@ -1,130 +1,130 @@
 #include "main.h"
+
 /**
- * print_char - print char arguments
- * @args: va_list argument
- * Return: return char number
+ * print_char - Prints a character
+ * @args: A va_list containing the character to be printed
+ *
+ * Return: The number of characters printed
  */
 int print_char(va_list args)
 {
-	_putchar(va_arg(args, int));
-	return (1);
+	return (_putchar(va_arg(args, int)));
 }
 
 /**
- * print_string - print string arguments
- * @args: va_list argument
- * Return: return the string
+ * print_string - Prints a string
+ * @args: A va_list containing the string to be printed
+ *
+ * Return: The number of characters printed
  */
 int print_string(va_list args)
 {
 	char *str = va_arg(args, char *);
-
-	int count = 0;
+  
+	int i = 0;
 
 	if (str == NULL)
-		str = "(nil)";
+		str = "(null)";
 
-	while (*str)
+	while (str[i])
 	{
-		_putchar(*str);
-		str++;
-		count++;
+		_putchar(str[i]);
+		i++;
+
 	}
-	return (count);
+
+	return (i);
 }
 
 /**
- * print_percent - print the percent argument
- * @args: va_list argument
- * Return: return the percent
+ * print_percent - Prints a percent sign
+ *
+ * Return: The number of characters printed
  */
-int print_percent(va_list args)
+int print_percent(void)
 {
-	(void) args;
 	_putchar('%');
 	return (1);
 }
 
 /**
-
- * print_int - print integer
- * @args: va_list argument
- * Return: returns integer
+ * print_int - Prints an integer
+ * @args: A va_list containing the integer to be printed
+ *
+ * Return: The number of characters printed
  */
 int print_int(va_list args)
 {
 	int num = va_arg(args, int);
 	int count = 0;
-	char buffer[11];
-	int i = 0;
+	int i = 1;
 
-	if (num == 0)
-	{
-		_putchar('0');
-		return (1);
-	}
 	if (num < 0)
 	{
 		_putchar('-');
 		count++;
 		num = -num;
 	}
-	while (num > 0)
+
+	while (num / i > 9)
+		i *= 10;
+
+	while (i > 0)
 	{
-		buffer[i] = (num % 10) + '0';
-		num /= 10;
-		i++;
-	}
-	if (i >= 11)
-		return (-1);
-	for (i--; i >= 0; i--)
-	{
-		_putchar(buffer[i]);
+		_putchar('0' + (num / i));
 		count++;
+		num %= i;
+		i /= 10;
 	}
+
 	return (count);
 }
 
 /**
-
- * _printf - produces output to a format
- * @format: character string argument
- * Return: returns an int value
+ * _printf - Prints a formatted string
+ * @format: A pointer to a string containing format specifiers
+ *
+ * Return: The number of characters printed
  */
 int _printf(const char *format, ...)
 {
-
-	int count = 0, i;
+	int count = 0;
 	va_list args;
-	int (*print_func[5])(va_list) = {print_char, print_string,
-	print_percent, print_int, print_int};
-	char specifiers[5] = {'c', 's', '%', 'd', 'i'};
 
 	va_start(args, format);
-
-	for (i = 0; format[i] != '\0'; i++)
+	while (*format)
 	{
-		if (format[i] == '%')
+		if (*format == '%')
 		{
-			int j;
-
-			i++;
-
-			for (j = 0; j < 5; j++)
-
+			format++;
+			switch (*format)
 			{
-				if (format[i] == specifiers[j])
-				{
-					count += print_func[j](args);
+				case 'c':
+					count += print_char(args);
 					break;
-				}
+				case 's':
+					count += print_string(args);
+					break;
+				case '%':
+					count += print_percent();
+					break;
+				case 'd':
+				case 'i':
+					count += print_int(args);
+					break;
+				default:
+					_putchar('%');
+					_putchar(*format);
+					count += 2;
+					break;
 			}
 		}
 		else
 		{
-			_putchar(format[i]);
+			_putchar(*format);
 			count++;
 		}
+		format++;
 	}
 	va_end(args);
 	return (count);
