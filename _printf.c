@@ -20,9 +20,11 @@ int print_string(va_list args)
 	char *str = va_arg(args, char *);
 	int count = 0;
 
+	if (str == NULL)
+		str = "(nil)";
 	while (*str)
 	{
-		putchar(*str);
+		_putchar(*str);
 		str++;
 		count++;
 	}
@@ -49,22 +51,31 @@ int print_percent(va_list args)
 int print_int(va_list args)
 {
 	int n = va_arg(args, int);
-	int div = 1;
 	int count = 0;
-	if (n < 0)
+	char buffer[11];
+	int i = 0;
+
+	if (num == 0)
+	{
+		_putchar('0');
+		return (1);
+	}
+	if (num < 0)
 	{
 		_putchar('-');
 		count++;
-		n = -n;
+		num = -num;
 	}
-	while (n / div >= 10)
-		div *= 10;
-	while (div > 0)
+	while (num > 0)
 	{
-		_putchar((n / div) + '0');
+		buffer[i] = (num % 10) + '0';
+		num /= 10;
+		i++;
+	}
+	for (i--; i >= 0; i--)
+	{
+		_putchar(buffer[i]);
 		count++;
-		n %= div;
-		div /= 10;
 	}
 	return (count);
 }
@@ -76,14 +87,12 @@ int print_int(va_list args)
  */
 int _printf(const char *format, ...)
 {
-	int count;
-	int i;
+	int count, i;
 	va_list args;
 	int (*print_func[5])(va_list);
 	char specifiers[5];
 
 	va_start(args, format);
-
 	print_func[0] = print_char;
 	print_func[1] = print_string;
 	print_func[2] = print_percent;
@@ -97,28 +106,28 @@ int _printf(const char *format, ...)
 	specifiers[4] = 'i';
 
 	count = 0;
-	while (*format)
+	for (i = 0; format[i] != '\0'; i++)
 	{
-		if (*format == '%')
+		if (format[i] == '%')
 		{
-			format++;
-			for (i = 0; i < 5; i++)
+			int j;
+
+			i++;
+			for (j = 0; j < 5; j++)
 			{
-				if (*format == specifiers[i])
+				if (format[i] == specifiers[j])
 				{
-					count += functions[i](args);
+					count += print_func[j](args);
 					break;
 				}
 			}
 		}
 		else
 		{
-			putchar(*format);
+			_putchar(format[i]);
 			count++;
 		}
-		format++;
 	}
-
 	va_end(args);
 	return (count);
 }
