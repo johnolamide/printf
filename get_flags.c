@@ -1,17 +1,17 @@
 #include "main.h"
 
 /**
- * get_flags - Calculates active flags
+ * get_f - Calculates active f
  * @format: Formatted string in which to print the arguments
  * @i: take a parameter.
  * Return: Flags:
  */
-int get_flags(const char *format, int *i)
+int get_f(const char *format, int *i)
 {
 	/* - + 0 # ' ' */
 	/* 1 2 4 8  16 */
 	int j, curr_i;
-	int flags = 0;
+	int f = 0;
 	const char FLAGS_CH[] = {'-', '+', '0', '#', ' ', '\0'};
 	const int FLAGS_ARR[] = {F_MINUS, F_PLUS, F_ZERO, F_HASH, F_SPACE, 0};
 
@@ -20,7 +20,7 @@ int get_flags(const char *format, int *i)
 		for (j = 0; FLAGS_CH[j] != '\0'; j++)
 			if (format[curr_i] == FLAGS_CH[j])
 			{
-				flags |= FLAGS_ARR[j];
+				f |= FLAGS_ARR[j];
 				break;
 			}
 
@@ -30,5 +30,5 @@ int get_flags(const char *format, int *i)
 
 	*i = curr_i - 1;
 
-	return (flags);
+	return (f);
 }
